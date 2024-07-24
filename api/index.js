@@ -13,11 +13,11 @@ app.use(cache("2 minutes"));
 
 app.use("/api/v1/workouts", v1workoutRouter);
 
-// Middleware para la documentación de Swagger
-V1swaggerDocs(app, PORT);
-
 // Sirve la documentación de Swagger en la ruta principal
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+// Middleware para la documentación de Swagger
+V1swaggerDocs(app, PORT);
 
 const PORT = process.env.PORT || 3000;
 
