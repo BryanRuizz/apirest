@@ -11,7 +11,7 @@ const options = {
         },
         servers: [
             {
-                url: "https://apirest2.vercel.app", // Cambia esto si tu URL en Vercel es diferente
+                url: "https://apirest2.vercel.app",
                 description: "API Documentation"
             }
         ]
@@ -22,7 +22,9 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 const swaggerDocs = (app, port) => {
-    app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+    app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec, {
+        customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css" // CDN URL para Swagger UI CSS
+    }));
     app.get('/api/v1/docs.json', (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(swaggerSpec);
