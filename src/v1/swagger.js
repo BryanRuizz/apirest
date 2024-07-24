@@ -1,7 +1,8 @@
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
+const { version } = require("uuid");
 
-// Metadata info about our API
+// metadata info about our api
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -11,19 +12,21 @@ const options = {
         },
     },
     apis: ["src/v1/routes/workoutRoutes.js", "./src/database/Workout.js"],
-};
+}
 
-// Docs en formato JSON
+// Docs en json format
 const swaggerSpec = swaggerJSDoc(options);
 
-// Función para configurar nuestros docs
+// function to setup our docs
 const swaggerDocs = (app, port) => {
     app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
     app.get('/api/v1/docs.json', (req, res) => {
         res.setHeader('Content-Type', 'application/json');
-        res.send(swaggerSpec);
+        res.send(swaggerSpec)
     });
-    console.log(`📓 Version 1 Docs are available at http://localhost:${port}/api/v1/docs`);
+    // console.log(`📓 Version 1 Docs are avaliable at http://localhost:${port}/api/v1/docs/`);
+    console.log(`📓 Version 1 Docs are available at http://localhost:${port}/api/v1/docs/`);
 };
 
-module.exports = { swaggerDocs, swaggerSpec, swaggerUI };
+
+module.exports = { swaggerDocs }

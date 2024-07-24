@@ -33,4 +33,4 @@ app.listen(PORT, () => {
     V1swaggerDocs(app, PORT);
 });
 
-export default app;
+export default app
