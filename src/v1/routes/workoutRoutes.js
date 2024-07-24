@@ -64,7 +64,7 @@ const router = express.Router();
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: "#/components/schemas/Workout"
+ *                     $ref: "#"
  *       5XX:
  *         description: FAILED
  *         content:
@@ -90,7 +90,7 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/Workout"
+ *             $ref: "#"
  *     responses:
  *       201:
  *         description: Created
@@ -103,7 +103,7 @@ const router = express.Router();
  *                   type: string
  *                   example: CREATED
  *                 data:
- *                   $ref: "#/components/schemas/Workout"
+ *                   $ref: "#"
  *       5XX:
  *         description: FAILED
  *         content:
@@ -148,7 +148,7 @@ const router = express.Router();
  *                   type: string
  *                   example: OK
  *                 data:
- *                   $ref: "#/components/schemas/Workout"
+ *                   $ref: "#"
  *       404:
  *         description: NOT FOUND
  *         content:
@@ -265,7 +265,7 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/Workout"
+ *             $ref: "#"
  *     responses:
  *       200:
  *         description: OK
@@ -278,7 +278,7 @@ const router = express.Router();
  *                   type: string
  *                   example: OK
  *                 data:
- *                   $ref: "#/components/schemas/Workout"
+ *                   $ref: "#/"
  *       404:
  *         description: NOT FOUND
  *         content:
