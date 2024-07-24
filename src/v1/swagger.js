@@ -1,32 +1,36 @@
-const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
-const { version } = require("uuid");
 
-// metadata info about our api
-const options = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Crossfit WOD API",
-            version: "1.0.0"
-        },
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Library API",
+      version: "1.0.0",
+      description: "A simple Express Library API",
     },
-    apis: ["src/v1/routes/workoutRoutes.js", "./src/database/Workout.js"],
-}
-
-// Docs en json format
-const swaggerSpec = swaggerJSDoc(options);
-
-// function to setup our docs
-const swaggerDocs = (app, port) => {
-    app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-    app.get('/api/v1/docs.json', (req, res) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(swaggerSpec)
-    });
-    // console.log(`📓 Version 1 Docs are avaliable at http://localhost:${port}/api/v1/docs/`);
-    console.log(`📓 Version 1 Docs are available at http://localhost:${port}/api/v1/docs/`);
+    servers: [
+      {
+        url: "http://localhost:3000",
+        description: "Local server",
+      },
+    ],
+  },
+  apis: ["./v1/routes/*.js"], // Ruta a tus archivos de documentación
 };
 
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-module.exports = { swaggerDocs }
+const setupSwagger = (app, port) => {
+  app.use(
+    "/api/v1/docs",
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerDocs, {
+      customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css",
+    })
+  );
+
+  console.log(`Swagger UI is available at http://localhost:${port}/api/v1/docs`);
+};
+
+module.exports = { setupSwagger };
