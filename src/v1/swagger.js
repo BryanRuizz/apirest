@@ -16,7 +16,7 @@ const options = {
             }
         ]
     },
-    apis: ["src/v1/routes/workoutRoutes.js", "src/database/Workout.js"],
+    apis: ["src/v1/routes/workoutRoutes.js", "src/database/Workout.js","src/database/Record.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

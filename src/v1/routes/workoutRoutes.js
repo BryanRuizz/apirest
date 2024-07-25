@@ -49,7 +49,7 @@ const router = express.Router();
  *         name: mode
  *         schema:
  *           type: string
- *         description: The mode of a workout
+ *         description: The mode of a workout -> amrap | 3 | 5 | For Time
  *     responses:
  *       200:
  *         description: OK
@@ -211,7 +211,7 @@ const router = express.Router();
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: "#/components/schemas/Workout"
+ *                     $ref: "#/components/schemas/Record"
  *       404:
  *         description: NOT FOUND
  *         content:
