@@ -1,17 +1,6 @@
 const DB = require("../database/db.json");
 const { saveToDatabase } = require("../database/utils");
 
-
-const getOneWorkout = (id) => {
-    const one = DB.workouts.filter((workout) => {
-        return id === workout.id
-    })
-    if (one.length < 1) {
-        return "not found";
-    }
-    return one;
-}
-
 /**
  * @openapi
  * components:
@@ -19,12 +8,12 @@ const getOneWorkout = (id) => {
  *     Workout:
  *       type: object
  *       properties:
- *         id: 
+ *         id:
  *           type: string
  *           example: 61dbae02-c147-4e28-863c-db7bd402b2d6
- *         name: 
+ *         name:
  *           type: string
- *           example: Tommy V  
+ *           example: Tommy V
  *         mode:
  *           type: string
  *           example: For Time
@@ -41,7 +30,7 @@ const getOneWorkout = (id) => {
  *         createdAt:
  *           type: string
  *           example: 4/20/2022, 2:21:56 PM
- *         updatedAt: 
+ *         updatedAt:
  *           type: string
  *           example: 4/20/2022, 2:21:56 PM
  *         trainerTips:
@@ -50,6 +39,17 @@ const getOneWorkout = (id) => {
  *             type: string
  *           example: ["Split the 21 thrusters as needed", "Try to do the 9 and 6 thrusters unbroken", "RX Weights: 115lb/75lb"]
  */
+
+
+const getOneWorkout = (id) => {
+    const one = DB.workouts.filter((workout) => {
+        return id === workout.id
+    })
+    if (one.length < 1) {
+        return "not found";
+    }
+    return one;
+}
 
 const getAllWorkouts = (filterParams) => {
     try {
