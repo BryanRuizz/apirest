@@ -363,7 +363,121 @@ const router = express.Router();
  *                       type: string
  *                       example: "Some error message"
  */
+
+/**
+ * @openapi
+ * /api/v1/workouts/{city}/cities:
+ *   patch:
+ *     tags:
+ *       - Cities
+ *     summary: Update a city by name
+ *     parameters:
+ *       - in: path
+ *         name: city
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The name of the city to update
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     city:
+ *                       type: string
+ *                       example: "Updated City Name"
+ *       404:
+ *         description: NOT FOUND
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: NOT FOUND
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "City not found"
+ *       5XX:
+ *         description: FAILED
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Some error message"
+ */
+
+/**
+ * @openapi
+ * /api/v1/workouts/cities:
+ *   get:
+ *     tags:
+ *       - Cities
+ *     summary: Get all cities
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       city:
+ *                         type: string
+ *                         example: "City Name"
+ *       5XX:
+ *         description: FAILED
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Some error message"
+ */
+
 router
+
+    .patch("/:city/cities", workoutController.updatecity)
+    .get("/cities", workoutController.getAllcities)
+//    aa
     .get("/", workoutController.getAllWorkouts)
     // .get("/", cache("2 minutes"), workoutController.getAllWorkouts)
     .get("/:workoutId", workoutController.getOneWorkout)
@@ -373,6 +487,7 @@ router
     .post("/", workoutController.createNewWorkout)
     .patch("/", workoutController.updateWorkout)
     .delete("/:workoutId", workoutController.deleteOneWorkout)
+// CITIES
 
 module.exports = router;
 

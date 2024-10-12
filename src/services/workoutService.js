@@ -39,10 +39,32 @@ const updateWorkout = (updateWorkout) => {
 
     return updatedworkout;
 }
+const updateCity = (info) => {
+    // console.log("estoy llegando al service",updateWorkout);
+    // const workoutUpdate = {
+    //     ...updateWorkout
+    // }
+    // console.log("que tengo?service   ->",info);
+    const updatedworkout = workout.updateAtcity(info);
+
+    return updatedworkout;
+}
 
 const deleteOneWorkout = (info) => {
     const deleteworkout = workout.deleteOneworkout(info);
     return deleteworkout;
 }
 
-module.exports = { getAllWorkouts, getOneWorkout, createNewWorkout, updateWorkout, deleteOneWorkout };
+const getAllcities = () => {
+
+    try {
+        const getAllWorkouts = workout.getAllcities();
+        return getAllWorkouts;
+
+    } catch (error) {
+        throw error;
+    }
+
+}
+
+module.exports = { getAllWorkouts, getOneWorkout, createNewWorkout, updateWorkout, deleteOneWorkout,updateCity,getAllcities};

@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cache("2 minutes"));
 
 app.get('/', (req, res) => {
-    res.send("<h1>Hello world</h1>");
+    res.send("<h1>Hello world</h1>"); 
 });
 
 app.use("/api/v1/workouts", v1workoutRouter);

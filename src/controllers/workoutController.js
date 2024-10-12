@@ -7,17 +7,17 @@ const workoutService = require("../services/workoutService");
 // };
 
 const getAllWorkouts = (req, res) => {
-    const {mode}= req.query;
+    const { mode } = req.query;
     // ruta/record? -> question mark crea la propiedad query
     // console.log("mira mode",mode);
 
     try {
-        const allWorkouts = workoutService.getAllWorkouts({mode});
+        const allWorkouts = workoutService.getAllWorkouts({ mode });
         res.send({ status: "OK", data: allWorkouts });
     } catch (error) {
         res
-        .status(error?.status||500)
-        .send({status: "FAILED", data:{error:"Failed data"}})
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: "Failed data" } })
     }
 
 };
@@ -29,7 +29,7 @@ const getOneWorkout = (req, res) => {
     }
     // console.log("mira esto es lo que estas solicitando ",id);
     const Workout = workoutService.getOneWorkout(id);
-    res.status(201).send({ status: "OK", data: Workout })
+    res.status(201).send({ status: "OKkkk", data: Workout })
 };
 
 const createNewWorkout = (req, res) => {
@@ -66,6 +66,22 @@ const updateWorkout = (req, res) => {
 
 };
 
+const updatecity = (req, res) => {
+    // console.log("Params recibidos:", req.params);
+    let info = req.params.city;
+    // console.log("llego al primero",info);
+    if (!info) {
+        res.status(404).send({ status: "FAILED", data: { error: "Parameter :'city' can not be empty" } });
+    }
+    try {
+        const updatedWorkout = workoutService.updateCity(info);
+        res.status(200).send({ status: "OK", data: updatedWorkout });
+    } catch (error) {
+        res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } })
+    }
+
+};
+
 const deleteOneWorkout = (req, res) => {
 
     const id = req.params.workoutId;
@@ -78,4 +94,26 @@ const deleteOneWorkout = (req, res) => {
     res.status(201).send({ status: "OK", data: delleted });
 };
 
-module.exports = { getAllWorkouts, getOneWorkout, createNewWorkout, updateWorkout, deleteOneWorkout };
+const getAllcities = (req, res) => {
+
+    try {
+        console.log("llegando");
+        const allWorkouts = workoutService.getAllcities();
+        res.send({ status: "OKk", data: allWorkouts });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: "Failed data" } })
+    }
+
+};
+
+module.exports = {
+    getAllWorkouts,
+    getOneWorkout,
+    createNewWorkout,
+    updateWorkout,
+    deleteOneWorkout,
+    updatecity,
+    getAllcities
+};

@@ -113,6 +113,19 @@ const updateAworkout = (workoutUpdate) => {
     return workoutUpdate;
 }
 
+const updateAtcity = (info) => {
+    // console.log("que me esta llegando model->",workoutUpdate);
+    DB.city = info;
+    // console.log("DB actualizado:", DB);  // <-- Verificar si la ciudad fue actualizada
+
+    // Guarda los cambios en el archivo JSON
+    saveToDatabase(DB);
+
+
+    // Retorna `workoutUpdate` actualizado
+    return DB.city;
+}
+
 
 const deleteOneworkout = (deleteworkout) => {
 
@@ -131,4 +144,10 @@ const deleteOneworkout = (deleteworkout) => {
     return deletedvalue;
 }
 
-module.exports = { getOneWorkout, getAllWorkouts, createNewWorkout, updateAworkout, deleteOneworkout };
+const getAllcities = () => {
+    const one = DB.city;
+    console.log(one);
+    return one;
+}
+
+module.exports = { getOneWorkout, getAllWorkouts, createNewWorkout, updateAworkout, deleteOneworkout, updateAtcity, getAllcities };
