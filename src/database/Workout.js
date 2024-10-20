@@ -1,5 +1,6 @@
 const DB = require("../database/db.json");
 const { saveToDatabase } = require("../database/utils");
+const db = require('./db'); // Import the MySQL connection
 
 /**
  * @openapi
@@ -113,18 +114,6 @@ const updateAworkout = (workoutUpdate) => {
     return workoutUpdate;
 }
 
-const updateAtcity = (info) => {
-    // console.log("que me esta llegando model->",workoutUpdate);
-    DB.city = info;
-    // console.log("DB actualizado:", DB);  // <-- Verificar si la ciudad fue actualizada
-
-    // Guarda los cambios en el archivo JSON
-    saveToDatabase(DB);
-
-
-    // Retorna `workoutUpdate` actualizado
-    return DB.city;
-}
 
 
 const deleteOneworkout = (deleteworkout) => {
@@ -144,10 +133,46 @@ const deleteOneworkout = (deleteworkout) => {
     return deletedvalue;
 }
 
-const getAllcities = () => {
-    const one = DB.city;
-    console.log(one);
-    return one;
+
+const updateAtcity = async (cityId, { cityName, cityLocation }) => {
+    try {
+        console.log("Llegando a la función updateAtcity");
+
+       
+        const [result] = await db.execute(
+            'UPDATE cities SET cityName = ?, cityLocation = ? WHERE id = ?',
+            [cityName, cityLocation, cityId] 
+        );
+
+       
+        if (result.affectedRows > 0) {
+            return { message: "Updated City", cityId, cityName, cityLocation }; 
+        } else {
+            return { message: "No fue posible actualizar la ciudad" };
+        }
+    } catch (error) {
+        console.error("Error updating city:", error); 
+        throw error; 
+    }
+};
+
+
+
+const getAllcities = async () => {
+    try {
+    
+        const [rows] = await db.execute('SELECT * FROM cities');
+
+     
+        let res = rows[0].cityName + "," + rows[0].cityLocation;
+        console.log(res);
+        return res;
+
+    } catch (error) {
+      
+        console.error('Error fetching cities:', error);
+        throw error;
+    }
 }
 
 module.exports = { getOneWorkout, getAllWorkouts, createNewWorkout, updateAworkout, deleteOneworkout, updateAtcity, getAllcities };

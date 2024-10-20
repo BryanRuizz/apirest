@@ -364,23 +364,37 @@ const router = express.Router();
  *                       example: "Some error message"
  */
 
+
 /**
  * @openapi
  * /api/v1/workouts/{city}/cities:
  *   patch:
  *     tags:
  *       - Cities
- *     summary: Update a city by name
+ *     summary: Update a city
  *     parameters:
  *       - in: path
  *         name: city
  *         required: true
+ *         description: ID of the city to update
  *         schema:
- *           type: string
- *         description: The name of the city to update
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cityName:
+ *                 type: string
+ *                 example: "New City Name"
+ *               cityLocation:
+ *                 type: string
+ *                 example: "New Location"
  *     responses:
  *       200:
- *         description: OK
+ *         description: City updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -389,30 +403,11 @@ const router = express.Router();
  *                 status:
  *                   type: string
  *                   example: OK
- *                 data:
- *                   type: object
- *                   properties:
- *                     city:
- *                       type: string
- *                       example: "Updated City Name"
- *       404:
- *         description: NOT FOUND
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
+ *                 message:
  *                   type: string
- *                   example: NOT FOUND
- *                 data:
- *                   type: object
- *                   properties:
- *                     error:
- *                       type: string
- *                       example: "City not found"
- *       5XX:
- *         description: FAILED
+ *                   example: "City updated successfully"
+ *       400:
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -426,8 +421,41 @@ const router = express.Router();
  *                   properties:
  *                     error:
  *                       type: string
- *                       example: "Some error message"
+ *                       example: "Missing cityName or cityLocation"
+ *       404:
+ *         description: City not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "City not found"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Error updating city"
  */
+
 
 /**
  * @openapi

@@ -66,39 +66,52 @@ const updateWorkout = (req, res) => {
 
 };
 
-const updatecity = (req, res) => {
-    // console.log("Params recibidos:", req.params);
-    let info = req.params.city;
-    // console.log("llego al primero",info);
-    if (!info) {
-        res.status(404).send({ status: "FAILED", data: { error: "Parameter :'city' can not be empty" } });
-    }
-    try {
-        const updatedWorkout = workoutService.updateCity(info);
-        res.status(200).send({ status: "OK", data: updatedWorkout });
-    } catch (error) {
-        res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } })
+const updatecity = async (req, res) => {
+   
+    const cityId = req.params.city;
+    const { cityName, cityLocation } = req.body; 
+
+  
+    if (!cityId) {
+        return res.status(400).send({ status: "FAILED", data: { error: "Parameter 'city' cannot be empty" } });
     }
 
+    
+    if (!cityName || !cityLocation) {
+        return res.status(400).send({ status: "FAILED", data: { error: "Both 'cityName' and 'cityLocation' are required" } });
+    }
+
+    try {
+       
+        const updatedCity = await workoutService.updateCity(cityId, { cityName, cityLocation });
+
+      
+        if (!updatedCity) {
+            return res.status(404).send({ status: "FAILED", data: { error: "City not found" } });
+        }
+
+      
+        res.status(200).send({ status: "OK", data: updatedCity });
+    } catch (error) {
+       
+        res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } });
+    }
 };
+
 
 const deleteOneWorkout = (req, res) => {
 
     const id = req.params.workoutId;
-    // console.log("id tiene ->",id);
-    // if(!body.id){
-    //     return;
-    // }
-    // // const info = {id: body.id};
+  
     const delleted = workoutService.deleteOneWorkout(id);
     res.status(201).send({ status: "OK", data: delleted });
 };
 
-const getAllcities = (req, res) => {
+const getAllcities = async(req, res) => {
 
     try {
-        console.log("llegando");
-        const allWorkouts = workoutService.getAllcities();
+        console.log("llegando2");
+        const allWorkouts =await workoutService.getAllcities();
         res.send({ status: "OKk", data: allWorkouts });
     } catch (error) {
         res

@@ -39,26 +39,34 @@ const updateWorkout = (updateWorkout) => {
 
     return updatedworkout;
 }
-const updateCity = (info) => {
-    // console.log("estoy llegando al service",updateWorkout);
-    // const workoutUpdate = {
-    //     ...updateWorkout
-    // }
-    // console.log("que tengo?service   ->",info);
-    const updatedworkout = workout.updateAtcity(info);
 
-    return updatedworkout;
-}
+const updateCity = async (cityId, { cityName, cityLocation }) => {
+   
+    console.log("Actualizando ciudad con ID:", cityId);
+    console.log("Datos de la ciudad:", { cityName, cityLocation });
+
+   
+    const updatedCity = await workout.updateAtcity(cityId, { cityName, cityLocation });
+
+   
+    if (!updatedCity) {
+        throw new Error("Error updating the city");
+    }
+
+    return updatedCity;
+};
+
 
 const deleteOneWorkout = (info) => {
     const deleteworkout = workout.deleteOneworkout(info);
     return deleteworkout;
 }
 
-const getAllcities = () => {
+const getAllcities = async () => {
 
     try {
-        const getAllWorkouts = workout.getAllcities();
+        const getAllWorkouts = await workout.getAllcities();
+        // console.log("res services", getAllWorkouts);
         return getAllWorkouts;
 
     } catch (error) {
@@ -67,4 +75,4 @@ const getAllcities = () => {
 
 }
 
-module.exports = { getAllWorkouts, getOneWorkout, createNewWorkout, updateWorkout, deleteOneWorkout,updateCity,getAllcities};
+module.exports = { getAllWorkouts, getOneWorkout, createNewWorkout, updateWorkout, deleteOneWorkout, updateCity, getAllcities };
