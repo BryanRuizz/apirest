@@ -1,6 +1,6 @@
 const DB = require("../database/db.json");
 const { saveToDatabase } = require("../database/utils");
-const db = require('./db'); // Import the MySQL connection
+const db = require('./db');
 
 /**
  * @openapi
@@ -134,25 +134,44 @@ const deleteOneworkout = (deleteworkout) => {
 }
 
 
-const updateAtcity = async (cityId, { cityName, cityLocation }) => {
+const updateAtcity = async (cityId, {
+    name,
+    latitude,
+    longitude,
+    accuracy
+}) => {
     try {
-        console.log("Llegando a la función updateAtcity");
+        const query = `
+            UPDATE cities
+            SET
+                name = $1,
+                latitude = $2,
+                longitude = $3,
+                accuracy = $4,
+                updated_at = NOW()
+            WHERE id = $5
+            RETURNING *
+        `;
 
-       
-        const [result] = await db.execute(
-            'UPDATE cities SET cityName = ?, cityLocation = ? WHERE id = ?',
-            [cityName, cityLocation, cityId] 
-        );
+        const values = [
+            name,
+            latitude,
+            longitude,
+            accuracy,
+            cityId
+        ];
 
-       
-        if (result.affectedRows > 0) {
-            return { message: "Updated City", cityId, cityName, cityLocation }; 
-        } else {
-            return { message: "No fue posible actualizar la ciudad" };
+        const result = await db.query(query, values);
+
+        if (result.rowCount === 0) {
+            return null;
         }
+
+        return result.rows[0];
+
     } catch (error) {
-        console.error("Error updating city:", error); 
-        throw error; 
+        console.error("Error updating city:", error);
+        throw error;
     }
 };
 
@@ -160,19 +179,24 @@ const updateAtcity = async (cityId, { cityName, cityLocation }) => {
 
 const getAllcities = async () => {
     try {
-    
-        const [rows] = await db.execute('SELECT * FROM cities');
+        const result = await db.query(
+            `SELECT
+                id,
+                name,
+                latitude,
+                longitude,
+                accuracy,
+                updated_at
+             FROM cities
+             ORDER BY id ASC`
+        );
 
-     
-        let res = rows[0].cityName + "," + rows[0].cityLocation;
-        console.log(res);
-        return res;
+        return result.rows;
 
     } catch (error) {
-      
-        console.error('Error fetching cities:', error);
+        console.error("Error fetching cities:", error);
         throw error;
     }
-}
+};
 
 module.exports = { getOneWorkout, getAllWorkouts, createNewWorkout, updateAworkout, deleteOneworkout, updateAtcity, getAllcities };

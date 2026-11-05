@@ -8,6 +8,8 @@ const RecordController = require("../../controllers/RecordController");
 const router = express.Router();
 // const cache = apicache.middleware;
 
+const verifyToken = require("../../middlewares/authMiddleware");
+const requireAdmin = require("../../middlewares/roleMiddleware");
 
 /**
  * @openapi
@@ -24,7 +26,7 @@ const router = express.Router();
  *           type: string
  *         duration:
  *           type: integer
- *         ...
+ *         example: "Some error message"
  *     Record:
  *       type: object
  *       properties:
@@ -34,7 +36,7 @@ const router = express.Router();
  *           type: string
  *         recordType:
  *           type: string
- *         ...
+ *         example: "Some error message"
  */
 
 /**
@@ -372,6 +374,8 @@ const router = express.Router();
  *     tags:
  *       - Cities
  *     summary: Update a city
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: city
@@ -385,13 +389,19 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
- *               cityName:
+ *           properties:
+ *               name:
  *                 type: string
- *                 example: "New City Name"
- *               cityLocation:
- *                 type: string
- *                 example: "New Location"
+ *                 example: "Torreón"
+ *               latitude:
+ *                 type: number
+ *                 example: 25.5373
+ *               longitude:
+ *                 type: number
+ *                 example: -103.5244
+ *               accuracy:
+ *                 type: number
+ *                 example: 150
  *     responses:
  *       200:
  *         description: City updated successfully
@@ -503,7 +513,8 @@ const router = express.Router();
 
 router
 
-    .patch("/:city/cities", workoutController.updatecity)
+   .patch("/:city/cities",verifyToken,requireAdmin,workoutController.updatecity)
+   
     .get("/cities", workoutController.getAllcities)
 //    aa
     .get("/", workoutController.getAllWorkouts)
