@@ -11,8 +11,8 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000",
-                // url: "https://apirest2.vercel.app",
+                // url: "http://localhost:3000",
+                url: "https://apirest2.vercel.app",
                 description: "API Documentation"
             }
         ],
@@ -44,11 +44,10 @@ const swaggerDocs = (app, port) => {
         res.json(swaggerSpec);
     });
 
-    console.log(
-        `📓 Swagger Docs: http://localhost:${port}/api/v1/docs`
-    );
+        console.log(`📓 Swagger Docs are available at https://apirest2.vercel.app/api/v1/docs`);
+    // console.log(
+    //      `📓 Swagger Docs: http://localhost:${port}/api/v1/docs`
+    // );
 };
 
 module.exports = { swaggerDocs };
-
-// console.log(`📓 Swagger Docs are available at https://apirest2.vercel.app/api/v1/docs`);
