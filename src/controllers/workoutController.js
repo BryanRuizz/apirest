@@ -67,34 +67,64 @@ const updateWorkout = (req, res) => {
 };
 
 const updatecity = async (req, res) => {
-   
+
     const cityId = req.params.city;
-    const { cityName, cityLocation } = req.body; 
 
-  
-    if (!cityId) {
-        return res.status(400).send({ status: "FAILED", data: { error: "Parameter 'city' cannot be empty" } });
-    }
+    const {
+        name,
+        latitude,
+        longitude,
+        accuracy
+    } = req.body;
 
-    
-    if (!cityName || !cityLocation) {
-        return res.status(400).send({ status: "FAILED", data: { error: "Both 'cityName' and 'cityLocation' are required" } });
+    if (
+        !name ||
+        latitude == null ||
+        longitude == null ||
+        accuracy == null
+    ) {
+        return res.status(400).json({
+            status: "FAILED",
+            data: {
+                error: "name, latitude, longitude and accuracy are required"
+            }
+        });
     }
 
     try {
-       
-        const updatedCity = await workoutService.updateCity(cityId, { cityName, cityLocation });
 
-      
+        const updatedCity = await workoutService.updateCity(
+            cityId,
+            {
+                name,
+                latitude,
+                longitude,
+                accuracy
+            }
+        );
+
         if (!updatedCity) {
-            return res.status(404).send({ status: "FAILED", data: { error: "City not found" } });
+            return res.status(404).json({
+                status: "FAILED",
+                data: {
+                    error: "City not found"
+                }
+            });
         }
 
-      
-        res.status(200).send({ status: "OK", data: updatedCity });
+        return res.status(200).json({
+            status: "OK",
+            data: updatedCity
+        });
+
     } catch (error) {
-       
-        res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } });
+
+        return res.status(500).json({
+            status: "FAILED",
+            data: {
+                error: error.message
+            }
+        });
     }
 };
 
@@ -110,7 +140,7 @@ const deleteOneWorkout = (req, res) => {
 const getAllcities = async(req, res) => {
 
     try {
-        console.log("llegando2");
+        // console.log("llegando2");
         const allWorkouts =await workoutService.getAllcities();
         res.send({ status: "OKk", data: allWorkouts });
     } catch (error) {

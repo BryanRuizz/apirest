@@ -40,20 +40,8 @@ const updateWorkout = (updateWorkout) => {
     return updatedworkout;
 }
 
-const updateCity = async (cityId, { cityName, cityLocation }) => {
-   
-    console.log("Actualizando ciudad con ID:", cityId);
-    console.log("Datos de la ciudad:", { cityName, cityLocation });
-
-   
-    const updatedCity = await workout.updateAtcity(cityId, { cityName, cityLocation });
-
-   
-    if (!updatedCity) {
-        throw new Error("Error updating the city");
-    }
-
-    return updatedCity;
+const updateCity = async (cityId, cityData) => {
+    return await workout.updateAtcity(cityId, cityData);
 };
 
 

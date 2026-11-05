@@ -1,17 +1,16 @@
-const mysql = require('mysql2');
+require("dotenv").config();
 
+const { Pool } = require("pg");
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 5,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000
+});
 
-const pool = mysql.createPool({
-    host: 'autorack.proxy.rlwy.net', 
-    user: 'root',   
-    password: 'PRACsyWVjamzeRcOfXnZrUPghPbpDkPq',
-    database: 'railway',
-    port: 20949,
-    connectTimeout: 10000 
-  });
-  
+pool.on("error", (err) => {
+    console.error("PostgreSQL Pool Error:", err);
+});
 
-
-module.exports = pool.promise();  
-//this db is not important that is why I expossed this values in my dbjs
+module.exports = pool;

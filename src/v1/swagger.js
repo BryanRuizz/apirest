@@ -11,30 +11,44 @@ const options = {
         },
         servers: [
             {
-                // url:"http://localhost:3000",
-                url: "https://apirest2.vercel.app",
+                url: "http://localhost:3000",
+                // url: "https://apirest2.vercel.app",
                 description: "API Documentation"
             }
-        ]
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT"
+                }
+            }
+        }
     },
-    apis: ["src/v1/routes/workoutRoutes.js", "src/database/Workout.js","src/database/Record.js"],
+    apis: ["src/v1/routes/workoutRoutes.js", "src/v1/routes/authRoutes.js", "src/database/Workout.js", "src/database/Record.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
+
 const swaggerDocs = (app, port) => {
-    app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec, {
-        customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css",
-        customJs: [
-            "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui-bundle.min.js",
-            "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui-standalone-preset.min.js"
-        ]
-    }));
-    app.get('/api/v1/docs.json', (req, res) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(swaggerSpec);
+
+    app.use(
+        "/api/v1/docs",
+        swaggerUI.serve,
+        swaggerUI.setup(swaggerSpec)
+    );
+
+    app.get("/api/v1/docs.json", (req, res) => {
+        res.json(swaggerSpec);
     });
-    console.log(`📓 Swagger Docs are available at https://apirest2.vercel.app`);
+
+    console.log(
+        `📓 Swagger Docs: http://localhost:${port}/api/v1/docs`
+    );
 };
 
 module.exports = { swaggerDocs };
+
+// console.log(`📓 Swagger Docs are available at https://apirest2.vercel.app/api/v1/docs`);
