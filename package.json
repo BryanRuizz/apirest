@@ -23,6 +23,7 @@
     "express-rate-limit": "^8.7.3",
     "pg": "^8.23.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^14.0.3"
   }
 }
