@@ -36,7 +36,7 @@ app.use(express.json());
 
 // Ruta principal
 app.get("/", (req, res) => {
-    res.send("<h1>Hello world</h1>");
+    res.redirect("/api/v1/docs/");
 });
 
 // Autenticación
