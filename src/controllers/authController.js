@@ -1,8 +1,28 @@
 const supabase = require("../config/supabase");
+const { decryptLogin } = require("../services/decryptLogin");
 
 const login = async (req, res) => {
+    const { iv, encryptedData } = req.body;
 
-    const { email, password } = req.body;
+    if (!iv || !encryptedData) {
+        return res.status(400).json({
+            status: "FAILED",
+            message: "IV and encrypted data are required"
+        });
+    }
+
+    let email;
+    let password;
+
+    try {
+        // Descifra el objeto enviado desde React.
+        ({ email, password } = await decryptLogin(iv, encryptedData));
+    } catch (error) {
+        return res.status(400).json({
+            status: "FAILED",
+            message: "Could not decrypt credentials"
+        });
+    }
 
     if (!email || !password) {
         return res.status(400).json({
@@ -12,14 +32,12 @@ const login = async (req, res) => {
     }
 
     try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
 
-        const { data, error } =
-            await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-
-        if (error) {
+        if (error || !data.session) {
             return res.status(401).json({
                 status: "FAILED",
                 message: "Invalid credentials"
@@ -34,9 +52,7 @@ const login = async (req, res) => {
                 expires_in: data.session.expires_in
             }
         });
-
     } catch (error) {
-
         return res.status(500).json({
             status: "FAILED",
             message: "Login failed"
