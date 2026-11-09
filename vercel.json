@@ -15,14 +15,14 @@
       "dest": "/api/index.js"
     }
   ],
-  "crons": [
+    "crons": [
     {
       "path": "/api/v1/workouts/cities",
-      "schedule": "0 12 * * 5"
+      "schedule": "0 12 * * 1,5"
     },
     {
       "path": "/api/v1/workouts/cities",
-      "schedule": "0 16 * * 5"
+      "schedule": "0 16 * * 1,5"
     }
   ]
 }
