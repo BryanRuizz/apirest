@@ -18,17 +18,15 @@ const authController = require("../../controllers/authController");
  *           schema:
  *             type: object
  *             required:
- *               - email
- *               - password
+ *               - iv
+ *               - encryptedData
  *             properties:
- *               email:
+ *               iv:
  *                 type: string
- *                 format: email
- *                 example: "admin@example.com"
- *               password:
+ *                 description: IV en Base64 generado por el frontend
+ *               encryptedData:
  *                 type: string
- *                 format: password
- *                 example: "your_password"
+ *                 description: Credenciales cifradas en Base64
  *     responses:
  *       200:
  *         description: Successfully authenticated
@@ -52,7 +50,7 @@ const authController = require("../../controllers/authController");
  *                       type: integer
  *                       example: 3600
  *       400:
- *         description: Email and password are required
+ *         description: Invalid or missing encrypted credentials
  *       401:
  *         description: Invalid credentials
  *       500:
